@@ -12,7 +12,8 @@ module Screen
     title "Login"
 
     def on_load
-      @layout = Layout::Login.new(root: self.view).build
+      # @layout = Layout::Login.new(root: self.view).build
+      self.view.backgroundColor = UIColor.whiteColor
       @nav_bar = Layout::NavBar.new(self.navigationController)
       @nav_bar.show_with_animation
     end
@@ -59,8 +60,6 @@ module Layout
       @nav.setBackgroundImage self.class.background_image, forBarMetrics: UIBarMetricsDefault
       self
     end
-
-
   end
 end
 
@@ -71,23 +70,16 @@ module Screen
     attr_accessor :navbar_layout
 
     def on_load
-      @layout = RootLayout.new(root: self.view).build
+      # @layout = RootLayout.new(root: self.view).build
+      self.view.backgroundColor = UIColor.whiteColor
+      @button = add UIButton.new, frame: [[ 10, 100], [200, 50]], background_color: UIColor.redColor
+      @button.on :touch { open Screen::Login.new }
       @navbar_layout = Layout::NavBar.new(self.navigationController).hide
-      [@layout.skip_button, @layout.signup_button, @layout.login_button].each do |button|
-        @layout.on button.motion_kit_id do
-          send(button.motion_kit_id.gsub("_button", ""))
-        end
-      end
     end
 
     def will_appear
       @navbar_layout.hide
-      @layout.reapply!
+      # @layout.reapply!
     end
-
-    def login
-      open Screen::Login.new nav_bar: true
-    end
-
   end
 end
